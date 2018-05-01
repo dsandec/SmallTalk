@@ -1,0 +1,223 @@
+{% import 'macros/page_macros.html' as page %}
+{% import 'macros/form_macros.html' as f %}
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<div class="update-placeholder"></div>
+<div class="main ui grid container">
+	<div class="four wide column">
+		<div class="ui segment center aligned stackable">
+			<h3>PROFILE</h3>
+			<div class="ui image circular">
+				<img src="/static/images/avatar/large/kristy.png">
+			</div>
+			<p>
+				<h2>{{ business_connection.first_name }} {{ business_connection.last_name }}</h2>
+			</p>
+			{% if business_connection.keywords %}
+			<p><h3>Keywords:</h3>{{ business_connection.keywords }}</p>
+			{% endif %}
+		</div>
+
+		{% if 'personal' in business_connection.scrapers_requested or 'ac & edu' in business_connection.scrapers_requested %}
+		<div class="ui segments ">
+			<div class="ui segment center aligned">
+				<h4>DOMAINS</h4>
+			</div>
+			<div class="ui segment">
+				<div class="ui items">
+					{% if 'ac & edu' in business_connection.scrapers_requested %}
+					<div class="item ac-domain">
+						{% if not business_connection.education_domain_search_completed_on %}
+						<div class="ui active inline small loader ac-domain"></div> {{ business_connection.ac_domain(False) }}
+						{% else %}
+						{{ page.render_domain_status(is_not_owned=business_connection.is_ac_domain_available, url_text=business_connection.ac_domain()) }}
+						{% endif %}
+					</div>
+					<div class="item edu-domain">
+						{% if not business_connection.education_domain_search_completed_on %}
+						<div class="ui active inline small loader edu-domain"></div> {{ business_connection.edu_domain(False) }}
+						{% else %}
+						{{ page.render_domain_status(is_not_owned=business_connection.is_edu_domain_available, url_text=business_connection.edu_domain()) }}
+						{% endif %}
+					</div>
+					{% endif %}
+					{% if 'personal' in business_connection.scrapers_requested %}
+					<div class="item personal-domain">
+						{% if not business_connection.personal_domain_search_completed_on %}
+						<div class="ui active inline small loader personal-domain"></div> {{ business_connection.personal_domain(False) }}
+						{% else %}
+						{{ page.render_domain_status(is_not_owned=business_connection.is_personal_domain_available, url_text=business_connection.personal_domain()) }}
+						{% endif %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="ui segments form ">
+			<div class="ui segment center aligned">
+				<h4>NOTES</h4>
+			</div>
+			<div class="ui segment">
+				{{ f.begin_form(commondetailform, None, extra_classes='social_form', action=url_for('main.update_common_details')) }}
+				<div class="field">
+						{{ commondetailform.notes(rows='5') }}
+				</div>
+				{{ f.end_form() }}
+			</div>
+		</div>
+		<div>
+			<div class="ui fluid huge button primary update_profiles">
+				Update
+			</div>
+		</div>
+	</div>
+	<div class="twelve wide column">
+
+		<div class="ui segment">
+			<div class="ui pointing secondary menu">
+				{% for result in google_search_results %}
+					{% if result['name'] in business_connection.scrapers_requested %}
+						{{ page.render_result_nofication(result['name'].lower(), result['name'] + ' Results', result['results'], search_type_id=result['id']) }}
+					{% endif %}
+				{% endfor %}
+			</div>
+			{% for result in google_search_results %}
+				{% if result['name'] in business_connection.scrapers_requested %}
+					{% if loop.index == 1 %}
+						{{ page.render_search_results(result['results'], result['name'].lower(), result['id'], search_type_name="linkedin", linkedinform=linkedinform, classes='active', business_connection_detail=business_connection_detail ) }}
+					{% else %}
+						{{ page.render_search_results(result['results'], result['name'].lower(), result['id'], search_type_name=''  ) }}
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+
+
+<script>
+	function extract_profile(button_obj) {
+			data = {
+				'result_id': button_obj.data('result-id'),
+				'csrf_token':'{{ csrf_token()|safe }}'
+			}
+
+			tab_page = $(button_obj.closest( ".ui.bottom.tab" ))
+			tab = tab_page.data('tab')
+			accordian = $(tab_page.find('.results-placeholder>.accordion')[0])
+
+			$.ajax({
+							url: '{{ url_for('main.business_connection_extract') }}',
+							data: data,
+							type: 'POST',
+							beforeSend: function() {
+								accordian.accordion('close')
+								loading = '<div class="ui segment loading"><div class="ui active dimmer"><div class="ui massive text loader">Loading</div></div><img class="ui wireframe image" src="/static/images/short-paragraph.png"><img class="ui wireframe image" src="/static/images/short-paragraph.png"><img class="ui wireframe image" src="/static/images/short-paragraph.png"></div>'
+								$('.tab[data-tab="'+ tab +'"]>.profile-placeholder').html(loading)
+							},
+							success: function(response) {
+									console.log(response);
+							},
+							error: function(error) {
+									console.log(error);
+							}
+					})
+					;
+			}
+
+	$(document).ready(function() {
+		var csrf_token = "{{ csrf_token() }}";
+
+		$.ajaxSetup({
+				beforeSend: function(xhr, settings) {
+						if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+								xhr.setRequestHeader("X-CSRFToken", csrf_token);
+						}
+				}
+		});
+
+		$('.menu .item')
+			.tab()
+		;
+		$('.ui.accordion').accordion();
+
+		$('.social-tab').click(function() {
+			search_type_id = $(this).data('search-type-id');
+			url = '/business-connection/results/{{ business_connection.id }}/' + search_type_id
+			tab = $(this).data('tab');
+
+			$.ajax({
+							url: url,
+							type: 'GET',
+							success: function(response) {
+									$('.tab[data-tab="'+ tab +'"]>.profile-placeholder').html(response)
+							},
+							error: function(error) {
+									console.log(error);
+							}
+					})
+					;
+		});
+
+		$('.button.extract_profile').click(function() {
+			extract_profile($(this));
+		});
+
+		$('.button.update_profiles').click(function() {
+			$('.social_form').each(function() {
+				var that = $(this)
+				data = that.serialize()
+				$.ajax({
+								url: that.attr('action'),
+								data: data,
+								type: 'POST',
+								success: function(response) {
+										var ph = $('.update-placeholder')
+										if (response != '') {
+											$(response).appendTo( ph ).fadeOut(2000);
+										}
+								},
+								error: function(error) {
+										console.log(error);
+								}
+						})
+						;
+			});
+		});
+	});
+</script>
+
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+		var socket;
+		$(document).ready(function(){
+				socket = io.connect('http://' + document.domain + ':' + location.port + '/notifs', {rememberTransport: false, transports: ['websocket'], upgrade: false});
+				socket.on('connect', function() {
+						socket.emit('joined', {});
+				});
+				socket.on('profile_scrape_complete', function(msg) {
+					$('div[data-search-type-id="'+msg['search_type_id']+'"]>.profile-placeholder').html(msg['html'])
+				});
+				socket.on('domain_scrape_complete', function(msg) {
+					var ph = $('.update-placeholder')
+					for (i = 0; i < msg['domains'].length;i++) {
+						item = msg['domains'][i]
+						selector = '.' + item['search_type'] + '-domain'
+						$('.loader'+selector).hide()
+						$('.item'+selector).html(item['html'])
+					}
+				});
+				socket.on('google_scrape_complete', function(msg) {
+					$('a[data-search-type-id="'+msg['search_type_id']+'"]>.label').html(msg['count'])
+					$('div[data-search-type-id="'+msg['search_type_id']+'"]>.results-placeholder').html(msg['html'])
+					$('.ui.accordion').accordion();
+					$('.button.extract_profile').click(function() {
+						extract_profile($(this));
+					});
+				});
+		});
+</script>
+
+{% endblock %}

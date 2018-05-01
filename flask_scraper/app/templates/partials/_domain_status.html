@@ -1,0 +1,2 @@
+{% if is_not_owned %}<i class="large red remove icon"></i>{% else %}<i class="large green checkmark icon"></i>{% endif %}
+{% if is_not_owned %}{{ url_text }}{% else %}<a href="http://{{ url_text }}" target="_blank">{{ url_text }}</a>{% endif %}

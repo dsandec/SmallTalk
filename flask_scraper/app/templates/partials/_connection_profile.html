@@ -1,0 +1,20 @@
+<div class="ui segment">
+	<div class="ui teal ribbon label">
+		<i class="user icon"></i> Extraction Details
+	</div>
+	{% if business_connection_detail %}
+	<h5>Source:</h5><a href="{{ business_connection_detail.url }}" target="_blank">{{ business_connection_detail.url }}</a>
+	<h5>Completed On:</h5> {{ business_connection_detail.completed_on.strftime('%d %b %Y %H:%M') }}
+	{% else %}
+	No extraction requested
+	{% endif %}
+</div>
+{% if search_type_name == 'linkedin' %}
+	{% include "partials/_linkedin_profile.html" %}
+{% elif search_type_name == 'facebook' %}
+	{% include "partials/_facebook_profile.html" %}
+{% elif search_type_name == 'twitter' %}
+	{% include "partials/_twitter_profile.html" %}
+{% elif search_type_name == 'youtube' %}
+	{% include "partials/_youtube_profile.html" %}
+{% endif %}

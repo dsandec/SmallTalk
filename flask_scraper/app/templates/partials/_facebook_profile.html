@@ -1,0 +1,81 @@
+{% import 'macros/form_macros.html' as f %}
+{{ f.begin_form(facebookform, None, extra_classes='fluid social_form', action=url_for('main.update_facebook_profile')) }}
+
+<div class="ui segment">
+	<div class="ui teal ribbon label">
+		<i class="user icon"></i> Personal information
+	</div>
+
+	{{ f.render_form_field(facebookform.bio, rows='10') }}
+</div>
+
+<div class="ui segment">
+	<div class="ui blue ribbon label">Location</div>
+	<div class="field">
+		<div class="two fields">
+			{{ f.render_form_field(facebookform.current_city) }}
+			{{ f.render_form_field(facebookform.home_town) }}
+		</div>
+	</div>
+</div>
+
+{% if business_connection_detail.education %}
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Education
+	</div>
+	{% for item in facebookform.education %}
+	<div class="two fields">
+		{{ f.render_form_field(item.form.name) }}
+		{{ f.render_form_field(item.form.summary) }}
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+
+{% if business_connection_detail.work %}
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Work
+	</div>
+	{% for item in facebookform.work %}
+	<div class="two fields">
+		{{ f.render_form_field(item.form.name) }}
+		{{ f.render_form_field(item.form.summary) }}
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Misc
+	</div>
+	<div class="two fields">
+		{{ f.render_form_field(facebookform.music) }}
+		{{ f.render_form_field(facebookform.movies) }}
+	</div>
+	<div class="two fields">
+		{{ f.render_form_field(facebookform.sports_teams) }}
+		{{ f.render_form_field(facebookform.athletes) }}
+	</div>
+	<div class="two fields">
+		{{ f.render_form_field(facebookform.books) }}
+		{{ f.render_form_field(facebookform.quotes) }}
+	</div>
+	<div class="two fields">
+		{{ f.render_form_field(facebookform.television) }}
+		{{ f.render_form_field(facebookform.inspirational_people) }}
+	</div>
+	<div class="two fields">
+		{{ f.render_form_field(facebookform.professional_skills) }}
+		{{ f.render_form_field(facebookform.games) }}
+	</div>
+	<div class="two fields">
+		{{ f.render_form_field(facebookform.sports) }}
+		{{ f.render_form_field(facebookform.other) }}
+	</div>
+</div>
+{{ facebookform.id }}
+
+{{ f.end_form() }}

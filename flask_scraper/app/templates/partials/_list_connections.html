@@ -1,0 +1,39 @@
+{% for connection in connections %}
+<div class="card">
+	<a class="image" href="{{ url_for('main.business_connection_profile', business_connection_id=connection.id) }}">
+		<img src="/static/images/avatar/large/elliot.jpg">
+	</a>
+	<div class="content">
+		<div class="header">{{ connection.first_name }} {{ connection.last_name }}</div>
+		<div class="description">
+			Scrapers requested:
+			<p>
+				{% if 'linkedin' in connection.scrapers_requested %}
+				<i class="linkedin square icon" title='Linkedin'></i>
+				{% endif %}
+				{% if 'facebook' in connection.scrapers_requested %}
+				<i class="facebook square icon" title='Facebook'></i>
+				{% endif %}
+				{% if 'youtube' in connection.scrapers_requested %}
+				<i class="youtube square icon" title='Youtube'></i>
+				{% endif %}
+				{% if 'twitter' in connection.scrapers_requested %}
+				<i class="twitter square icon" title='Twitter'></i>
+				{% endif %}
+				{% if 'personal' in connection.scrapers_requested %}
+				<i class="world icon" title='Personal website'></i>
+				{% endif %}
+				{% if 'ac & edu' in connection.scrapers_requested %}
+				<i class="university icon" title="Ac & Edu website"></i>
+				{% endif %}
+			</p>
+		</div>
+	</div>
+	<div class="extra content left aligned">
+		Created on:
+		<span class="right floated">
+			{{ connection.requested_on.strftime('%d %b %Y')  }}
+		</span>
+	</div>
+</div>
+{% endfor %}

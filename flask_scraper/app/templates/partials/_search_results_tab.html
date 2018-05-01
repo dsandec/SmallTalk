@@ -1,0 +1,21 @@
+<div class="ui fluid styled padded accordion segment">
+	<div class="title">
+		<h2 class="ui fluid header "><i class="dropdown icon"></i> Located results...</h2>
+	</div>
+	<div class="content">
+			<div class="ui divided selection list">
+				{% for search_result in search_results %}
+				<div class="item">
+					<div class="right floated content">
+						<div class="ui button extract_profile" data-result-id="{{ search_result.id }}">Extract</div>
+					</div>
+					<div class="content">
+						<div class="header"><a href="{{ search_result.url }}" target="_blank">{{ search_result.title }}</a></div>
+						<p>{{ search_result.summary }}</p>
+						<p>{{ search_result.description }}</p>
+					</div>
+				</div>
+				{% endfor %}
+		</div>
+	</div>
+</div>

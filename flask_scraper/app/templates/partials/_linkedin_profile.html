@@ -1,0 +1,40 @@
+{% import 'macros/form_macros.html' as f %}
+{{ f.begin_form(linkedinform, None, extra_classes='fluid social_form', action=url_for('main.update_linkedin_profile')) }}
+<div class="ui segment">
+	<div class="ui teal ribbon label">
+		<i class="user icon"></i> Personal information
+	</div>
+	{{ f.render_form_field(linkedinform.bio, rows='10') }}
+	{{ f.render_form_field(linkedinform.current_city) }}
+</div>
+
+{% if linkedinform.education|length > 0 %}
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Education
+	</div>
+	{% for item in linkedinform.education %}
+	<div class="two fields">
+		{{ f.render_form_field(item.form.name) }}
+		{{ f.render_form_field(item.form.summary) }}
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+
+{% if linkedinform.work|length > 0 %}
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Work
+	</div>
+	{% for item in linkedinform.work %}
+	<div class="two fields">
+		{{ f.render_form_field(item.form.name) }}
+		{{ f.render_form_field(item.form.summary) }}
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+
+
+{{ f.end_form() }}

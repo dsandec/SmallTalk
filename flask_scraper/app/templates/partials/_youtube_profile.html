@@ -1,0 +1,13 @@
+{% import 'macros/form_macros.html' as f %}
+{{ f.begin_form(youtubeform, None, extra_classes='fluid social_form', action=url_for('main.update_youtube_profile')) }}
+
+<div class="ui segment">
+	<div class="ui teal ribbon label">
+		<i class="user icon"></i> Personal information
+	</div>
+
+	{{ f.render_form_field(youtubeform.bio, rows='10') }}
+	{{ youtubeform.id }}
+
+</div>
+{{ f.end_form() }}

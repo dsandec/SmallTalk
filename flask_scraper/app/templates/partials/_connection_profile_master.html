@@ -1,0 +1,179 @@
+{%if business_connection_detail %}
+
+<div class="ui segment">
+	<div class="ui teal ribbon label">
+		<i class="user icon"></i> Personal information (Source: {{ business_connection_detail.url }})
+	</div>
+	<div class="field">
+		<div class="two fields">
+			<div class="field">
+				<label>First Name</label>
+				<input type="text" name="business_connection[first-name]" placeholder="First Name" value="{{ business_connection.first_name }}">
+			</div>
+			<div class="field">
+				<label>Last Name</label>
+				<input type="text" name="business_connection[last-name]" placeholder="Last Name" value="{{ business_connection.last_name }}">
+			</div>
+		</div>
+	</div>
+
+	<div class="field">
+		<div class="three fields">
+			{% if business_connection_detail.date_of_birth %}
+			<div class="field">
+				<label>Birthday</label>
+				<input type="text" name="business_connection_detail[date-of-birth]" placeholder="Date of Birth" value="{{ business_connection_detail.date_of_birth }}">
+			</div>
+			{% endif %}
+			{% if business_connection_detail.email %}
+			<div class="field">
+				<label>Email</label>
+				<input type="text" name="business_connection_detail[email]" placeholder="Email" value="{{ business_connection_detail.email }}">
+			</div>
+			{% endif %}
+			{% if business_connection_detail.phone_number %}
+			<div class="field">
+				<label>Mobile Phone</label>
+				<input type="text" name="business_connection_detail[phone-number]" placeholder="Phone number" value="{{ business_connection_detail.phone_number }}">
+			</div>
+			{% endif %}
+		</div>
+	</div>
+
+	{% if business_connection_detail.bio %}
+	<div class="field">
+		<label>Bio</label>
+		<textarea name="music" rows="5">{{ business_connection_detail.bio }}</textarea>
+	</div>
+	{% endif %}
+
+	{% if business_connection_detail.website %}
+	<div class="field">
+		<label>Website</label>
+		<input type="text" name="business_connection_detail[website]" placeholder="Website" value="{{ business_connection_detail.website }}">
+	</div>
+	{% endif %}
+
+	{% if business_connection_detail.street_address or business_connection_detail.current_city or business_connection_detail.home_town %}
+	<div class="ui divider"></div>
+	<div class="ui blue ribbon label">Location</div>
+	<div class="field">
+		<label>Address line</label>
+		<input type="text" name="business_connection_detail[address-line]" placeholder="Address line" value="{{ business_connection_detail.street_address }}">
+	</div>
+	<div class="field">
+		<div class="two fields">
+			<div class="field">
+				<label>City</label>
+				<input type="text" name="business_connection_detail[city]" placeholder="City" value="{{ business_connection_detail.current_city }}">
+			</div>
+			<div class="field">
+				<label>Home Town</label>
+				<input type="text" name="business_connection_detail[city]" placeholder="Home Town" value="{{ business_connection_detail.home_town }}">
+			</div>
+		</div>
+	</div>
+	{% endif %}
+</div>
+{% if business_connection_detail.education %}
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Education
+	</div>
+	{% for item in business_connection_detail.education %}
+	<div class="field">
+		<div class="two fields">
+			<div class="field">
+				<label>University</label>
+				<input type="text" name="university[name]" placeholder="Name" value="{{ item['name'] }}">
+			</div>
+			<div class="field">
+				<label>Summary</label>
+				<textarea name="university[summary]" rows="2">{{ item['summary'] }}</textarea>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+{% if business_connection_detail.work %}
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Jobs
+	</div>
+	{% for job in business_connection_detail.work %}
+	<div class="field">
+		<div class="two fields">
+			<div class="field">
+				<label>Company Name</label>
+				<input type="text" name="job[name]" placeholder="Company Name" value="{{ job['name'] }}">
+			</div>
+			<div class="field">
+				<label>Summary</label>
+				<textarea name="job[summary]" rows="2">{{ job['summary'] }}</textarea>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+<div class="ui segment">
+	<div class="ui purple ribbon label">
+		<i class="user icon"></i> Misc
+	</div>
+	<div class="two fields">
+		<div class="field">
+				<label>Music</label>
+				<textarea name="music" rows="2">{{ business_connection_detail.music }}</textarea>
+		</div>
+		<div class="field">
+				<label>Movies</label>
+				<textarea name="movies" rows="2">{{ business_connection_detail.movies }}</textarea>
+		</div>
+	</div>
+	<div class="two fields">
+		<div class="field">
+				<label>Sports teams</label>
+				<textarea name="music" rows="2">{{ business_connection_detail.sports_team }}</textarea>
+		</div>
+		<div class="field">
+				<label>Athletes</label>
+				<textarea name="movies" rows="2">{{ business_connection_detail.athletes }}</textarea>
+		</div>
+	</div>
+	<div class="two fields">
+		<div class="field">
+				<label>Books</label>
+				<textarea name="music" rows="2">{{ business_connection_detail.books }}</textarea>
+		</div>
+		<div class="field">
+				<label>Quotes</label>
+				<textarea name="movies" rows="2">{{ business_connection_detail.quotes }}</textarea>
+		</div>
+	</div>
+	<div class="two fields">
+		<div class="field">
+				<label>Television</label>
+				<textarea name="music" rows="2">{{ business_connection_detail.television }}</textarea>
+		</div>
+		<div class="field">
+				<label>Inspirational People</label>
+				<textarea name="movies" rows="2">{{ business_connection_detail.inspirational_people }}</textarea>
+		</div>
+	</div>
+	<div class="two fields">
+		<div class="field">
+				<label>Professional Skills</label>
+				<textarea name="music" rows="2">{{ business_connection_detail.professional_skills }}</textarea>
+		</div>
+		<div class="field">
+				<label>Games</label>
+				<textarea name="movies" rows="2">{{ business_connection_detail.games }}</textarea>
+		</div>
+	</div>
+	<div class="field">
+			<label>Sports</label>
+			<textarea name="movies" rows="2">{{ business_connection_detail.sports }}</textarea>
+	</div>
+</div>
+{% endif %}

@@ -1,0 +1,115 @@
+{% import 'macros/form_macros.html' as f %}
+<div class="ui standard new_connection_modal modal">
+	<div class="header">
+		Add new connection
+	</div>
+	<div class="image content">
+		<div class="ui medium image circular">
+			<img src="/static/images/avatar/large/molly.png">
+		</div>
+		<div class="description" style="width:100%!important;">
+
+			{% set flashes = {
+					'error':   get_flashed_messages(category_filter=['form-error']),
+					'warning': get_flashed_messages(category_filter=['form-check-email']),
+					'info':    get_flashed_messages(category_filter=['form-info']),
+					'success': get_flashed_messages(category_filter=['form-success'])
+			} %}
+
+
+			{{ f.begin_form(form, None, extra_classes='fluid new_connection_form') }}
+				<h4 class="ui dividing header">Contact Details</h4>
+				<div class="field">
+					<div class="two fields">
+						{{ f.render_form_field(form.first_name) }}
+						{{ f.render_form_field(form.last_name) }}
+					</div>
+				</div>
+				<h4 class="ui dividing header">Scraper usage</h4>
+
+				<div class="fields">
+					<div class="ui grid two columns">
+						{{ form.scrapers(class_="ui toggle checkbox list") }}
+					</div>
+				</div>
+
+				<h4 class="ui dividing header">Keywords</h4>
+				<div class="field">
+					<label>Enter any keywords to add to the search</label>
+					{{ form.keywords(rows="2") }}
+				</div>
+				{# Implement CSRF protection  #}
+				{% if csrf_token()|safe %}
+						<div style="visibility: hidden; display: none">
+							<input type="hidden" name="csrf_token" value="{{ csrf_token()|safe }}">
+						</div>
+				{% endif %}
+
+			{{ f.end_form() }}
+		</div>
+	</div>
+	<div class="actions">
+		<div class="ui black deny button">
+			Cancel
+		</div>
+		{% for field in form | selectattr('type', 'equalto', 'SubmitField') %}
+				{{ f.render_form_field(field) }}
+		{% endfor %}
+
+		<div class="ui positive right labeled icon button submit">
+			Lets go!
+			<i class="checkmark icon"></i>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+$('.new_connection_form')
+	.form({
+		fields: {
+			name: {
+				identifier: 'first_name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'Please enter first name'
+					}
+				]
+			},
+			skills: {
+				identifier: 'last_name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'Please enter last name'
+					}
+				]
+			},
+			scrapers: {
+				identifier: 'scrapers',
+				rules: [
+					{
+						type   : 'checked',
+						prompt : 'Please select a scraper'
+					}
+				]
+			}
+		},
+		onSuccess(event, fields) {
+			$.ajax({
+							url: '{{ url_for('main.business_connection_create') }}',
+							data: $('.new_connection_form').serialize(),
+							type: 'POST',
+							success: function(response) {
+									console.log('success')
+									window.location.href=response;
+							},
+							error: function(error) {
+									console.log(error);
+							}
+					});
+		}
+
+	})
+;
+</script>

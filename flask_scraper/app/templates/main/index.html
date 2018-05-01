@@ -1,0 +1,289 @@
+{% import 'macros/page_macros.html' as page %}
+{% import 'macros/form_macros.html' as f %}
+{% extends 'layouts/base.html' %}
+
+{% block custom_head_tags %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.velocity.min.js"></script>
+{% endblock %}
+
+{% block content %}
+	{% if not (current_user.is_authenticated) %}
+
+		<div class="pusher">
+			<div class="homepage-hero-module">
+					<div class="video-container">
+						<div class="title-container">
+								<div class="headline">
+										<!--Original logo height 80px-->
+										<img src="/assets/coverr-logo-xmas-8fe6de77a278c3e07b04780192d5a155.png" height="80" alt="">
+										<h1 class="text-white text-thin">SmallTalk - Business Connections</h1>
+										<h5 class="text-white text-thin">Start to improve your client engagement now! <a href="terms-of-use" >Explore</a></h5>
+								</div>
+
+								<div class="text-center" id="loadBannerVideoSpinner" style="background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 4px; display: none; margin-top: 20px;">
+										<h5 class="text-thin text-primary">Loading ... <i class="fa fa-circle-o-notch fa-spin"></i></h5>
+								</div>
+						</div>
+							<div class="filter"></div>
+							<video autoplay loop poster="/static/video/Meeting-Room.jpg" class="fillWidth">
+								<source src="/static/video/Meeting-Room.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+								<source src="/static/video/Meeting-Room.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
+							</video>
+							<div style="position: absolute; bottom: 20px; left: 50%; margin-left: -19px;">
+									<a class="coverr-nav-item" href="#coverrs" style="text-decoration: none;">
+											<h1 class="header huge">
+													<i class="huge angle down icon"></i>
+											</h1>
+									</a>
+							</div>
+					</div>
+			</div>
+
+			<div class="ui vertical stripe primary segment">
+				<div class="ui middle aligned stackable grid container center aligned">
+					<div class="sixteen wide column">
+						<h2 class="ui huge header">What we have to offer:</h2>
+					</div>
+					<div class="five wide column">
+						<i class="user outline bordered circular huge teal icon"></i>
+						<h3 class="ui large header">People</h3>
+						<p>Store potential client information through searching just keywords - our system will assist your client expansions</p>
+						<button class="ui labeled icon huge teal button">Learn More<i class="right chevron icon"></i></button>
+					</div>
+					<div class="five wide column">
+						<i class="idea bordered circular huge teal icon"></i>
+						<h3 class="ui large header">Find Businesses</h3>
+						<p>Discover companies associated to someone - network into different sectors! SmallTalk offers what LinkedIn can't</p>
+						<button class="ui labeled icon huge teal button">Learn More<i class="right chevron icon"></i></button>
+					</div>
+					<div class="five wide column">
+						<i class="find bordered circular huge teal icon"></i>
+						<h3 class="ui large header">Social Media</h3>
+						<p>Utilising the most popular technologies, you can find information on sites like: Facebook, Twitter, LinkedIn, Youtube... </p>
+						<button class="ui labeled icon huge teal button">Learn More<i class="right chevron icon"></i></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="ui vertical stripe secondary segment">
+				<div class="ui middle aligned stackable container center aligned">
+						<h2>Get connected!</h2>
+						<p>Discover why SmallTalk is trusted by over 100,000 UK professionals</p>
+						<a href="terms-of-use">Explore <i class="angle right icon"></i></a>
+						<img src="/static/images/inc-logo_option2.png" class="ui image centered massive image">
+				</div>
+			</div>
+
+			<div class="ui vertical stripe teal inverted segment center aligned">
+				<div class="ui middle aligned stackable grid container">
+					<div class="sixteen wide column">
+						<h2 class="ui header inverted">Crawl the deepest depths of the internet</h2>
+					</div>
+					<div class="sixteen wide column">
+						<div class="ui grid equal width">
+							<div class="column">
+								<h3 class="ui header">LinkedIn</h3>
+								<p>
+									As you are probably well aware, LinkedIn offers a great insight into someones professional life. Rather than scrolling through pages and pages of people, let our system find your client quickly and easily!
+								</p>
+								<a href="terms-of-use">Learn More...</a>
+							</div>
+							<div class="column">
+								<h3 class="ui header">Twitter</h3>
+								<p>
+									Twitter can allow for a greater insight into ones personality and way of thinking than LinkedIn, it can also offer valuable personal information such as favourite music, concerts attended, or recently read books...
+								</p>
+								<a href="terms-of-use">Learn More...</a>
+							</div>
+							<div class="column">
+								<h3 class="ui header">Facebook</h3>
+								<p>
+									To help you accurately mirror your client, to build rapport, facebook can provide you with their preference for clothes, hair style, and even speech pattern. In itslef it is an index of potential client information that will help you connect better with your client.
+								</p>
+								<a href="terms-of-use">Learn More...</a>
+							</div>
+							<div class="column">
+								<h3 class="ui header">Ac.Edu Domains</h3>
+								<p>
+									For the academic or firm trying to win a contract with a university, knowing your academic client/connection is very important. Discover their research interests and more through our Ac and Edu scraper!
+								</p>
+								<a href="terms-of-use">Learn More...</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="ui vertical stripe segment">
+				<div class="ui middle aligned stackable grid">
+					<div class="eight wide column">
+						<img src="/static/images/admin-dashboard.png" class="ui massive image">
+					</div>
+					<div class="seven wide column">
+						<h2>SmallTalk is for everyone professional or curious citizen, we cater for all</h2>
+						<p>Knowledge is power, and power is influence. Influence your clients with extreme ease. SmallTalk is a revolutionary tool that will transform your professional life, and even personal, using pure data retrieval anlysis.</p>
+						<a href="terms-of-use">Explore <i class="angle right icon"></i></a><a href="#">See More <i class="angle right icon"></i></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="ui vertical stripe teal inverted quote segment">
+				<div class="ui grid container" >
+
+					<div class="ten wide column middle aligned stackable container">
+						<h2>Create an account!</h2>
+						<p>We are offering free membership for the next 3 months, after that a bi-annual or a quarterly membership fee will apply</p>
+					</div>
+					<div class="two wide column middle aligned right floated">
+						<button class="ui inverted massive button">Create!</button>
+					</div>
+				</div>
+			</div>
+
+				<div class="ui vertical stripe quote segment">
+					<div class="ui equal width stackable internally celled grid">
+						<div class="center aligned row">
+							<div class="column">
+								<h3>"Stunning design and performance "</h3>
+								<p><b>Lloyd Blankfein</b> CEO Goldman Sachs</p>
+							</div>
+							<div class="column">
+								<h3>"Efficient, sleek, and intuitive - this technology truly is revolutionary to the sales industry"</h3>
+								<p>
+									<img src="/static/images/avatar/large/stevie.jpg" class="ui avatar image"> <b>Tom Keene</b> Bloomberg News Editor and Bloomberg Surveillence Host
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="ui vertical stripe segment center aligned">
+					<div class="ui text container">
+						<h2 class="ui header">Want to learn more?</h2>
+						<a class="ui huge teal button">Contact Us</a>
+					</div>
+				</div>
+
+				<div class="container vertical stackable ui footer segment">
+					<div class="ui grid ">
+						<div class="sixteen wide column center aligned">
+							<button class="ui circular large facebook icon button">
+								<i class="facebook icon"></i>
+							</button>
+							<button class="ui circular large twitter icon button">
+								<i class="twitter icon"></i>
+							</button>
+							<button class="ui circular large linkedin icon button">
+								<i class="linkedin icon"></i>
+							</button>
+							<button class="ui circular large google plus icon button">
+								<i class="google plus icon"></i>
+							</button>
+						</div>
+
+						<div class="sixteen wide column">
+							<div class="ui right floated horizontal list">
+								<div class="disabled item" href="#">© SmallTalk, LLC.</div>
+								<a class="item" href="terms-of-use">Terms</a>
+								<a class="item" href="privacy-policy">Privacy</a>
+								<a class="item" href="about">Contact</a>
+							</div>
+							<div class="ui horizontal list">
+								<a class="item" href="about">About Us</a>
+								<a class="item" href="about">Jobs</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+				$(document).ready(function () {
+
+					$('.ui.vertical.stripe:not(:last)').each(function( index ) {
+
+						selector = 'fade-up-' + index;
+						$(this).addClass(selector)
+						selector = '.' + selector;
+
+						$(this).fadeTo( 0, 0 )
+						var tween = new TimelineMax()
+							.to(selector, 1, {top:'-=200', ease: Power2.easeOut});
+
+						var controller = new ScrollMagic.Controller();
+						var scene = new ScrollMagic.Scene({triggerElement: selector})
+										// trigger a velocity opaticy animation
+										.setTween(tween)
+										.setVelocity(selector, {opacity: 1}, { duration: 700 })
+										.addTo(controller);
+					})
+				});
+				</script>
+		{% else %}
+		<div class="main ui container">
+			<div class="ui grid center aligned">
+				<div class="sixteen wide column">
+					<h1>Connections</h1>
+				</div>
+				<div class="sixteen wide column">
+					<button class="new_connection_button huge ui primary button">
+						New Connection
+					</button>
+				</div>
+				<div class="sixteen wide column">
+					{{ f.begin_form(search_form, None, extra_classes='fluid social_form search_form') }}
+						<div class="ui grid stackable">
+							<div class="twelve wide column">
+								<div class="ui massive fluid icon input"  >
+									{{ search_form.search_text(class="ui massive fluid icon input", placeholder='Search .......', id='search_text') }}
+									<i class="search icon"></i>
+								</div>
+							</div>
+							<div class="four wide column">
+									{{ search_form.sort_order(class="ui dropdown search_order") }}
+							</div>
+							<div class="ui sixteen wide column">
+								<div class="ui five doubling link cards" id="search_results">
+									{% include "partials/_list_connections.html" %}
+								</div>
+							</div>
+						</div>
+					{{ f.end_form() }}
+			</div>
+		</div>
+		</div>
+
+			{% include 'partials/_new_connection_modal.html' %}
+			{{ page.render_inline_model_window('.new_connection_modal','.new_connection_button', 'fade up', ) }}
+
+			<script type="text/javascript">
+				function perform_search(){
+						$.ajax({
+										url: '{{ url_for('main.business_connection_search') }}',
+										data: $('.search_form').serialize(),
+										type: 'POST',
+										success: function(response) {
+												console.log(response);
+												$('#search_results').html(response)
+										},
+										error: function(error) {
+												console.log(error);
+										}
+								})
+								;
+						}
+
+				 $(document).ready(function () {
+
+					 $('#search_text').blur(perform_search);
+					 $('#order_by').change(perform_search);
+
+				});
+			</script>
+		{% endif %}
+
+{% endblock %}
